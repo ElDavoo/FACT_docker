@@ -20,15 +20,15 @@ $ ./start.py compose-env \
 $ eval $(./start.py compose-env --firmware-file-storage-dir path_to_fw_data_dir)
 $ export FACT_DOCKER_POSTGRES_PASSWORD=mypassword
 $ docker volume create fact_postgres_data
-$ docker-compose up -d database
+$ docker compose up -d database
 # Wait some seconds until the db is ready
 $ ./start.py initialize-db \
     --network fact_docker_fact-network
-$ docker-compose up
+$ docker compose up
 ```
 
-To shut down the containers use `docker-compose stop` (Or press Ctrl+C).
-When you want to start them again use `docker-compose start`.
+To shut down the containers use `docker compose stop` (Or press Ctrl+C).
+When you want to start them again use `docker compose start`.
 Don't forget to run `eval $(./start.py compose-env --firmware-file-storage-dir path_to_fw_data_dir)`
 beforehand.
 
