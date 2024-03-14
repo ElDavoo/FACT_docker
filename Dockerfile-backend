@@ -1,14 +1,14 @@
-ARG FACT_DOCKER_VERSION
-FROM fact-core-common:${FACT_DOCKER_VERSION}
+FROM fact-core-common
 USER fact:fact
 RUN FACT_INSTALLER_SKIP_DOCKER=y /opt/FACT_core/src/install.py --backend --no-common && \
     sudo apt clean
 
 USER root:root
-RUN rm /etc/sudoers.d/99_fact
+#RUN rm /etc/sudoers.d/99_fact
 # Remove the default config to ensure that is is always mounted
-RUN rm -f /opt/FACT_core/src/config/uwsgi_config.ini /opt/FACT_core/src/config/main.cfg
+RUN rm -f /opt/FACT_core/src/config/uwsgi_config.ini /opt/FACT_core/src/config/fact-core-config.toml
 USER fact:fact
 
 COPY entrypoint.sh /usr/local/bin/
+ENV INSIDE_DOCKER=true
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

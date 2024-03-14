@@ -6,9 +6,6 @@ import os
 import pathlib
 import subprocess
 
-fact_version = os.getenv("FACT_DOCKER_VERSION", "4.0.1")
-
-
 def create_docker_mount_base_dir_with_correct_permissions(docker_mount_base_dir):
     docker_gid = grp.getgrnam("docker").gr_gid
     pathlib.Path(docker_mount_base_dir).mkdir(mode=0o770, parents=True, exist_ok=True)
@@ -36,7 +33,7 @@ def pull(args):
     {pass_docker_socket_args(args)} \
     -it \
     --rm \
-    ghcr.io/fkie-cad/fact-core-scripts:{fact_version} pull-containers
+    fact-core-scripts pull-containers
     """
 
     subprocess.run(cmd.split())
@@ -45,10 +42,10 @@ def pull(args):
 def initialize_db(args):
     cmd = f"""docker run \
     -it \
-    --mount type=bind,source={args.main_cfg_path},destination=/opt/FACT_core/src/config/main.cfg,ro=true \
+    --mount type=bind,source={args.main_cfg_path},destination=/opt/FACT_core/src/config/fact-core-config.toml,ro=true \
     --rm \
     --network {args.network} \
-    ghcr.io/fkie-cad/fact-core-scripts:{fact_version} \
+    fact-core-scripts \
     initialize-db
     """
 
@@ -67,7 +64,7 @@ export FACT_DOCKER_FIRMWARE_FILE_STORAGE_DIR_GID={fw_data_dir_gid}
 export FACT_DOCKER_FRONTEND_PORT={args.port}
 export FACT_DOCKER_MAIN_CFG_PATH={args.main_cfg_path}
 export FACT_DOCKER_UWSGI_CONFIG_INI_PATH={args.uwsgi_config_ini_path}
-export FACT_DOCKER_VERSION={fact_version}""")
+""")
 
 
 def main():
@@ -90,8 +87,8 @@ def main():
     initialize_db_p.set_defaults(func=initialize_db)
     initialize_db_p.add_argument(
         "--main-cfg-path",
-        default=f"{os.getcwd()}/main.cfg",
-        help="Path to main.cfg",
+        default=f"{os.getcwd()}/fact-core-config.toml",
+        help="Path to fact-core-config.toml",
         required=False,
     )
     initialize_db_p.add_argument(
@@ -108,8 +105,8 @@ def main():
     compose_env_p.set_defaults(func=compose_env)
     compose_env_p.add_argument(
         "--main-cfg-path",
-        default="$(pwd)/main.cfg",
-        help="Path to main.cfg",
+        default="$(pwd)/fact-core-config.toml",
+        help="Path to fact-core-config.toml",
         required=False,
     )
     compose_env_p.add_argument(
@@ -132,7 +129,7 @@ def main():
     compose_env_p.add_argument(
         "--docker-mount-base-dir",
         default="/tmp/fact-docker-mount-base-dir",
-        help="Has to match docker-mount-base-dir in main.cfg",
+        help="Has to match docker-mount-base-dir in fact-core-config.toml",
     )
 
     args = parser.parse_args()

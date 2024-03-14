@@ -2,28 +2,35 @@
 # on FACT_core.
 # Many scripts that one would expect to be able to run independently in fact can't
 # In the future we should maybe extract these in a pip module
-FROM alpine:3.15
-ARG FACT_DOCKER_VERSION
+FROM alpine:3.18
 
 RUN apk add --no-cache \
         bash \
         git \
         docker \
         docker-compose \
-        postgresql12-client \
+        postgresql14-client \
         python3 \
         py3-distro \
         py3-pip \
         py3-psutil \
         py3-psycopg2 \
-        py3-requests \
-        py3-sqlalchemy
+        py3-requests
 
-RUN pip install \
-        git+https://github.com/fkie-cad/common_helper_files.git
+#COPY FACT_core /opt/FACT_core
 
-RUN git clone --branch ${FACT_DOCKER_VERSION} https://github.com/fkie-cad/FACT_core.git /opt/FACT_core
+
+RUN git clone --depth=1 https://github.com/ElDavoo/FACT_core.git /opt/FACT_core
+
+RUN apk add --no-cache py3-maturin file gcc
+
+RUN pip install -r /opt/FACT_core/src/install/requirements_pre_install.txt
+
+RUN pip install sqlalchemy typing-extensions alembic --upgrade
+
+#RUN pip install -r /opt/FACT_core/src/install/requirements_common.txt
 
 COPY entrypoint.sh /usr/local/bin/
 
+ENV INSIDE_DOCKER=true
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

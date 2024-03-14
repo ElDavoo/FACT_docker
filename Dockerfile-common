@@ -1,5 +1,4 @@
 FROM ubuntu:focal
-ARG FACT_DOCKER_VERSION
 
 # Upgrade system and install dependencies of the installer
 RUN apt -y update && apt -y upgrade && \
@@ -20,8 +19,12 @@ RUN useradd -r --no-create-home -d /var/log/fact fact && \
 USER fact:fact
 WORKDIR /var/log/fact
 
-RUN git clone --branch ${FACT_DOCKER_VERSION} https://github.com/fkie-cad/FACT_core.git /opt/FACT_core
+#COPY FACT_core /opt/FACT_core
+
+RUN git clone --depth=1 https://github.com/ElDavoo/FACT_core.git /opt/FACT_core
 
 RUN /opt/FACT_core/src/install/pre_install.sh
 RUN FACT_INSTALLER_SKIP_DOCKER=y /opt/FACT_core/src/install.py --common && \
     sudo apt clean
+
+ENV INSIDE_DOCKER=true

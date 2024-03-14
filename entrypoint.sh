@@ -15,6 +15,8 @@ case "$1" in
         exit $?
     ;;
     "initialize-db")
+        # alembic expect us to be in the same directory as the alembic.ini file
+        cd /opt/FACT_core/src
         exec /usr/bin/python3 /opt/FACT_core/src/init_postgres.py
     ;;
     "pull-containers")
