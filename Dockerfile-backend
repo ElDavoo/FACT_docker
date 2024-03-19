@@ -15,8 +15,7 @@ CMD ["/opt/FACT_core/start_fact_backend"]
 
 # Replace the downloaded code with the local code
 # We do it now to avoid the long building times at every code change
-USER root:root
+#USER root:root
 #RUN rm -rf /opt/FACT_core/src
 COPY FACT_core/src /opt/FACT_core/src
-RUN chown -R fact:fact /opt/FACT_core/src
-USER fact:fact
+#RUN chown -R fact:fact /opt/FACT_core/src
