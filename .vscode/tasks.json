@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Containers",
+            "type": "shell",
+            "command": "make -j",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Docker Compose Up",
+            "type": "shell",
+            "command": "docker compose up -d",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "dependsOn": "Build Containers"
+        },
+    ]
+}
