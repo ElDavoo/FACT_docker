@@ -25,4 +25,6 @@ RUN /opt/FACT_core/src/install/pre_install.sh
 RUN FACT_INSTALLER_SKIP_DOCKER=y /opt/FACT_core/src/install.py --common && \
     sudo apt clean
 
+RUN sudo pip install debugpy
+
 ENV INSIDE_DOCKER=true

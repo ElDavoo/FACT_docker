@@ -60,8 +60,7 @@ services:
       - "sh"
       - "-c"
       - |
-        pip install debugpy -t /tmp \
-        && python3 /tmp/debugpy --wait-for-client --listen 0.0.0.0:5002 \
+        python3 -m debugpy --listen 0.0.0.0:5002 \
         /opt/FACT_core/src/start_fact_backend.py
     ports:
       - "5002:5002"
