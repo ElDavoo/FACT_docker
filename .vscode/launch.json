@@ -1,0 +1,15 @@
+{"configurations": [
+    {
+       "name": "backend 5002",
+       "type": "debugpy",
+       "request": "attach",
+       "port": 5002,
+       "host": "localhost",
+       "pathMappings": [
+           {
+               "localRoot": "${workspaceFolder}/FACT_core",
+               "remoteRoot": "/opt/FACT_core/"
+           }
+       ]
+   },]
+}

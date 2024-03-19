@@ -14,14 +14,24 @@
 # - Password for postgres admin user
 # FACT_DOCKER_UWSGI_CONFIG_INI_PATH
 # - Path to the uwsgi-config.ini
+
+version: '3.9'
 services:
   fact-frontend:
     image: fact-core-frontend
-    command: start-frontend
+    #entrypoint:
+    # - "sh"
+    #  - "-c"
+    #  - |
+    #    pip install debugpy -t /tmp \
+    #    && python3 /tmp/debugpy --listen 0.0.0.0:5001 \
+    #    /opt/FACT_core/src/start_fact_frontend.py
+    #command: start-frontend
     environment:
       - INSIDE_DOCKER=true
     ports:
       - "${FACT_DOCKER_FRONTEND_PORT:-5000}:5000"
+      - 5001:5001
     networks:
       - fact-network
     group_add:
@@ -29,7 +39,7 @@ services:
     volumes:
         # This is needed for generating pdf reports.
       - type: bind
-        source: "${DOCKER_HOST:-/var/run/docker.sock}"
+        source: /var/run/docker.sock
         target: /var/run/docker.sock
       - type: bind
         source: "${FACT_DOCKER_DOCKER_MOUNT_BASE_DIR}"
@@ -46,7 +56,16 @@ services:
 
   fact-backend:
     image: fact-core-backend
-    command: start-backend
+    entrypoint:
+      - "sh"
+      - "-c"
+      - |
+        pip install debugpy -t /tmp \
+        && python3 /tmp/debugpy --wait-for-client --listen 0.0.0.0:5002 \
+        /opt/FACT_core/src/start_fact_backend.py
+    ports:
+      - "5002:5002"
+    #command: start-backend
     environment:
       - INSIDE_DOCKER=true
     networks:
@@ -56,7 +75,7 @@ services:
       - "${FACT_DOCKER_FIRMWARE_FILE_STORAGE_DIR_GID}"
     volumes:
       - type: bind
-        source: "${DOCKER_HOST:-/var/run/docker.sock}"
+        source: /var/run/docker.sock
         target: /var/run/docker.sock
       - type: bind
         source: "${FACT_DOCKER_MAIN_CFG_PATH}"

@@ -17,20 +17,24 @@ RUN apk add --no-cache \
         py3-psycopg2 \
         py3-requests
 
-#COPY FACT_core /opt/FACT_core
 
 
-RUN git clone --depth=1 https://github.com/ElDavoo/FACT_core.git /opt/FACT_core
+
+#RUN git clone --depth=1 https://github.com/ElDavoo/FACT_core.git /opt/FACT_core
 
 RUN apk add --no-cache py3-maturin file gcc
 
-RUN pip install -r /opt/FACT_core/src/install/requirements_pre_install.txt
-
 RUN pip install sqlalchemy typing-extensions alembic --upgrade
 
+COPY FACT_core /opt/FACT_core
+
+RUN pip install -r /opt/FACT_core/src/install/requirements_pre_install.txt
+
+
 #RUN pip install -r /opt/FACT_core/src/install/requirements_common.txt
+
 
 COPY entrypoint.sh /usr/local/bin/
 
 ENV INSIDE_DOCKER=true
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/usr/local/bin/entrypoint.sh"]
