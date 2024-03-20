@@ -1,0 +1,7 @@
+[submodule "fact_extractor"]
+	path = fact_extractor
+	url = git@github.com:ElDavoo/fact_extractor.git
+
+[submodule "FACT_core"]
+	path = FACT_core
+	url = git@github.com:ElDavoo/fact_core.git
