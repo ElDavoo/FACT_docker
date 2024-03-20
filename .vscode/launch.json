@@ -1,6 +1,14 @@
 {
     "configurations": [
         {
+            "name": "compose-env",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/start.py",
+            "console": "integratedTerminal",
+            "args": "compose-env --firmware-file-storage-dir path_to_fw_data_dir"
+        },
+        {
             "name": "backend 5002",
             "type": "debugpy",
             "request": "attach",

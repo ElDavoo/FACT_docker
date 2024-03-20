@@ -9,6 +9,8 @@ import subprocess
 def create_docker_mount_base_dir_with_correct_permissions(docker_mount_base_dir):
     docker_gid = grp.getgrnam("docker").gr_gid
     pathlib.Path(docker_mount_base_dir).mkdir(mode=0o770, parents=True, exist_ok=True)
+    # Umask may interfere with permissions
+    os.chmod(docker_mount_base_dir, 0o770)
     os.chown(docker_mount_base_dir, -1, docker_gid)
 
 
