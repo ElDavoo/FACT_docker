@@ -15,10 +15,13 @@
 # FACT_DOCKER_UWSGI_CONFIG_INI_PATH
 # - Path to the uwsgi-config.ini
 
-version: '3.9'
 services:
   fact-frontend:
+    # local build
     image: fact-core-frontend
+    # official build
+    # image: fkiecad/fact-core-frontend
+
     #entrypoint:
     # - "sh"
     #  - "-c"
@@ -51,11 +54,20 @@ services:
         source: "${FACT_DOCKER_UWSGI_CONFIG_INI_PATH}"
         target: /opt/FACT_core/src/config/uwsgi_config.ini
     depends_on:
-      - database
-      - redis
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      fact-backend:
+        # TODO healthcheck?
+        condition: service_started
 
   fact-backend:
+    # local build
     image: fact-core-backend
+    # official build
+    # image: fkiecad/fact-core-backend
+
     entrypoint:
       - "sh"
       - "-c"
@@ -89,11 +101,13 @@ services:
         source: "${FACT_DOCKER_FIRMWARE_FILE_STORAGE_DIR}"
         target: /media/data/fact_fw_data
     depends_on:
-      - database
-      - redis
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   database:
-    image: postgres
+    image: postgres:16.2
     networks:
       - fact-network
     environment:
@@ -102,13 +116,25 @@ services:
       - 5432
     volumes:
       - fact_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 20s
 
   redis:
-    image: redis
+    image: redis:7.2-alpine
     networks:
       - fact-network
     expose:
       - 6379
+    healthcheck:
+      test: "[ $$(redis-cli ping) = 'PONG' ]"
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
 
 networks:
   fact-network: {}
