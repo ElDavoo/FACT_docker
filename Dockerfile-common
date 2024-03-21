@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 # Upgrade system and install dependencies of the installer
 RUN apt -y update && apt -y upgrade && \
