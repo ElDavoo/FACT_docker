@@ -1,9 +1,10 @@
 FROM fact-core-common
 USER fact:fact
 
-RUN FACT_INSTALLER_SKIP_DOCKER=y /opt/FACT_core/src/install.py --frontend --no-common && \
+RUN . /opt/FACT_core/venv/bin/activate  &&  pip install docker && \ 
+    FACT_INSTALLER_SKIP_DOCKER=y /opt/FACT_core/src/install.py --frontend --no-common && \
     sudo apt clean
-RUN pip install docker 
+
 USER root:root
 RUN rm /etc/sudoers.d/99_fact
 # Remove the default config to ensure that is is always mounted
@@ -12,12 +13,12 @@ USER fact:fact
 
 COPY entrypoint.sh /usr/local/bin/
 ENV INSIDE_DOCKER=true
-CMD ["/opt/FACT_core/start_fact_frontend"]
+CMD . /opt/FACT_core/venv/bin/activate  && /opt/FACT_core/start_fact_frontend
 
 # Replace the downloaded code with the local code
 # We do it now to avoid the long building times at every code change
 #USER root:root
 #RUN rm -rf /opt/FACT_core/src
-COPY FACT_core/src /opt/FACT_core/src
+#COPY FACT_core/src /opt/FACT_core/src
 #RUN chown -R fact:fact /opt/FACT_core/src
 #USER fact:fact

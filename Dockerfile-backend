@@ -1,6 +1,7 @@
 FROM fact-core-common
 USER fact:fact
-RUN FACT_INSTALLER_SKIP_DOCKER=y /opt/FACT_core/src/install.py --backend --no-common && \
+RUN . /opt/FACT_core/venv/bin/activate  && \ 
+    FACT_INSTALLER_SKIP_DOCKER=y /opt/FACT_core/src/install.py --backend --no-common && \
     sudo apt clean
 
 USER root:root
@@ -11,11 +12,11 @@ USER fact:fact
 
 COPY entrypoint.sh /usr/local/bin/
 ENV INSIDE_DOCKER=true
-CMD ["/opt/FACT_core/start_fact_backend"]
+CMD . /opt/FACT_core/venv/bin/activate && /opt/FACT_core/start_fact_backend
 
 # Replace the downloaded code with the local code
 # We do it now to avoid the long building times at every code change
 #USER root:root
 #RUN rm -rf /opt/FACT_core/src
-COPY FACT_core/src /opt/FACT_core/src
+#COPY FACT_core/src /opt/FACT_core/src
 #RUN chown -R fact:fact /opt/FACT_core/src
