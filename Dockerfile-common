@@ -13,7 +13,6 @@ RUN apt-get -y update && apt-get -y upgrade && \
         python3-venv \
         python3-pip \
         python3-wheel \
-        python3-debugpy \
         && \
     apt clean
 
@@ -30,7 +29,7 @@ RUN git clone --depth=1 https://github.com/ElDavoo/FACT_core.git /opt/FACT_core
 #COPY FACT_core/src/install /opt/FACT_core/src/install
 
 RUN python3 -m venv /opt/FACT_core/venv && \
-    /opt/FACT_core/venv/bin/pip install --upgrade pip setuptools
+    /opt/FACT_core/venv/bin/pip install --upgrade pip setuptools debugpy
 
 RUN . /opt/FACT_core/venv/bin/activate  && \ 
     /opt/FACT_core/src/install/pre_install.sh

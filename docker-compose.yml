@@ -26,8 +26,8 @@ services:
     # - "sh"
     #  - "-c"
     #  - |
-    #    pip install debugpy -t /tmp \
-    #    && python3 /tmp/debugpy --listen 0.0.0.0:5001 \
+    #    . /opt/FACT_core/venv/bin/activate &&
+    #    python3 -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5001 \
     #    /opt/FACT_core/src/start_fact_frontend.py
     #command: start-frontend
     environment:
@@ -72,7 +72,8 @@ services:
       - "sh"
       - "-c"
       - |
-        python3 -m debugpy --listen 0.0.0.0:5002 \
+        . /opt/FACT_core/venv/bin/activate &&
+        python3 -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5002 \
         /opt/FACT_core/src/start_fact_backend.py
     ports:
       - "5002:5002"
@@ -118,8 +119,8 @@ services:
       - fact_postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 3s
+      interval: 3s
+      timeout: 2s
       retries: 3
       start_period: 20s
 
@@ -131,8 +132,8 @@ services:
       - 6379
     healthcheck:
       test: "[ $$(redis-cli ping) = 'PONG' ]"
-      interval: 5s
-      timeout: 3s
+      interval: 3s
+      timeout: 2s
       retries: 3
       start_period: 10s
 
