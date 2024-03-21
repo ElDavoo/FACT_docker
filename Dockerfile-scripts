@@ -37,4 +37,4 @@ RUN pip install -r /opt/FACT_core/src/install/requirements_pre_install.txt
 COPY entrypoint.sh /usr/local/bin/
 
 ENV INSIDE_DOCKER=true
-CMD ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

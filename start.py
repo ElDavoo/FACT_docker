@@ -107,13 +107,13 @@ def main():
     compose_env_p.set_defaults(func=compose_env)
     compose_env_p.add_argument(
         "--main-cfg-path",
-        default="$(pwd)/fact-core-config.toml",
+        default="fact-core-config.toml",
         help="Path to fact-core-config.toml",
         required=False,
     )
     compose_env_p.add_argument(
         "--uwsgi-config-ini-path",
-        default="$(pwd)/uwsgi_config.ini",
+        default="uwsgi_config.ini",
         help="Path to uwsgi_config.ini",
         required=False,
     )
