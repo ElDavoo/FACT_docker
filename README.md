@@ -10,27 +10,18 @@ passed to the container. Please make sure that your user is a member of the
 ## Usage
 To initialize the containers the the following lines of shell should get you started.
 ```sh
-$ docker pull ghcr.io/fkie-cad/fact-core-frontend:4.0.1
-$ docker pull ghcr.io/fkie-cad/fact-core-backend:4.0.1
-$ docker pull ghcr.io/fkie-cad/fact-core-scripts:4.0.1
-$ ./start.py pull
 $ ./start.py compose-env \
-    --firmware-file-storage-dir path_to_fw_data_dir
-    # Have a look if it looks right
-$ eval $(./start.py compose-env --firmware-file-storage-dir path_to_fw_data_dir)
-$ export FACT_DOCKER_POSTGRES_PASSWORD=mypassword
+    --firmware-file-storage-dir path_to_fw_data_dir > .env
+$ echo FACT_DOCKER_POSTGRES_PASSWORD=mypassword >> .env
 $ docker volume create fact_postgres_data
 $ docker compose up -d database
-# Wait some seconds until the db is ready
 $ ./start.py initialize-db \
     --network fact_docker_fact-network
 $ docker compose up
 ```
 
 To shut down the containers use `docker compose stop` (Or press Ctrl+C).
-When you want to start them again use `docker compose start`.
-Don't forget to run `eval $(./start.py compose-env --firmware-file-storage-dir path_to_fw_data_dir)`
-beforehand.
+When you want to start them again use `docker compose start`.  
 
 
 We provide a `docker-compose.yml` and a python script to get FACT in docker
@@ -43,8 +34,8 @@ For documentation about their meanings see `docker-compose.yml`.
 Use `./start.py --help` to get help about the usage of the script.
 
 ## Building the images
-To build the docker images locally run `make`.
-For this to work you have to set the environment variable `FACT_DOCKER_VERSION` to the FACT_version you want to install.
+To build the docker images locally run `make`.  
+After that, edit `docker-compose.yml` to enable the usage of the local images.  
 The lowest supported version is `4.0.1`.
 
 ## Development of FACT\_core in FACT\_docker
