@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM ubuntu:noble
 
 # Upgrade system and install dependencies of the installer
 RUN apt-get -y update && apt-get -y upgrade && \
