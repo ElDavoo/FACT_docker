@@ -2,6 +2,8 @@
 
 set -e
 
+source /opt/FACT_core/venv/bin/activate
+
 case "$1" in
     "start-backend")
         # We can't use exec since it will crash somehow
@@ -17,7 +19,7 @@ case "$1" in
     "initialize-db")
         # alembic expect us to be in the same directory as the alembic.ini file
         cd /opt/FACT_core/src
-        exec /usr/bin/python3 /opt/FACT_core/src/init_postgres.py
+        exec python3 /opt/FACT_core/src/init_postgres.py
     ;;
     "pull-containers")
         # We can't to this in the Dockerfile, because the docker socket is not shared to there
