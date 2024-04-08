@@ -74,6 +74,10 @@ services:
       - type: bind
         source: "${FACT_DOCKER_UWSGI_CONFIG_INI_PATH}"
         target: /opt/FACT_core/src/config/uwsgi_config.ini
+      - type: bind
+        source: "${FACT_DOCKER_AUTH_DATA_FILE}"
+        target: /media/data/fact_auth_data/fact_users.db
+
     depends_on:
       database:
         condition: service_healthy

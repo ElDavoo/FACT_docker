@@ -62,6 +62,7 @@ def compose_env(args):
 export FACT_DOCKER_DOCKER_GID={docker_gid}
 export FACT_DOCKER_DOCKER_MOUNT_BASE_DIR={args.docker_mount_base_dir}
 export FACT_DOCKER_FIRMWARE_FILE_STORAGE_DIR={args.firmware_file_storage_dir}
+export FACT_DOCKER_AUTH_DATA_FILE={args.auth_data_file}
 export FACT_DOCKER_FIRMWARE_FILE_STORAGE_DIR_GID={fw_data_dir_gid}
 export FACT_DOCKER_FRONTEND_PORT={args.port}
 export FACT_DOCKER_MAIN_CFG_PATH={args.main_cfg_path}
@@ -132,6 +133,11 @@ def main():
         "--docker-mount-base-dir",
         default="/tmp/fact-docker-mount-base-dir",
         help="Has to match docker-mount-base-dir in fact-core-config.toml",
+    )
+    compose_env_p.add_argument(
+        "--auth-data-file",
+        default=f"{os.getcwd()}/fact_users.db",
+        help="Folder in which to store the authentication data for the frontend",
     )
 
     args = parser.parse_args()
