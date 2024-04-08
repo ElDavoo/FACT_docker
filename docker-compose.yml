@@ -16,6 +16,27 @@
 # - Path to the uwsgi-config.ini
 
 services:
+
+  cf-tunnel:
+    image: cloudflare/cloudflared
+    hostname: cf-tunnel
+    restart: unless-stopped
+    networks:
+      - fact-network
+    depends_on:
+      - fact-frontend
+    command: tunnel --no-autoupdate run
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - "TUNNEL_TOKEN=${TUNNEL_TOKEN}"
+    cpu_shares: 800
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 30M
+
   fact-frontend:
     # local build
     image: fact-core-frontend
@@ -68,13 +89,13 @@ services:
     # official build
     # image: fkiecad/fact-core-backend
 
-    entrypoint:
-      - "sh"
-      - "-c"
-      - |
-        . /opt/FACT_core/venv/bin/activate &&
-        python3 -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5002 \
-        /opt/FACT_core/src/start_fact_backend.py
+    #entrypoint:
+    #  - "sh"
+    #  - "-c"
+    #  - |
+    #    . /opt/FACT_core/venv/bin/activate &&
+    #    python3 -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5002 \
+    #    /opt/FACT_core/src/start_fact_backend.py
     ports:
       - "5002:5002"
     #command: start-backend
@@ -108,7 +129,9 @@ services:
         condition: service_healthy
 
   database:
-    image: postgres:16.2
+    image: postgres:16.2-alpine
+    ports:
+      - "5432:5432"
     networks:
       - fact-network
     environment:
@@ -136,6 +159,8 @@ services:
       timeout: 2s
       retries: 3
       start_period: 10s
+
+  
 
 networks:
   fact-network: {}
