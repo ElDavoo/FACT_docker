@@ -37,6 +37,23 @@ services:
           cpus: '2'
           memory: 30M
 
+  radare:
+    image: fkiecad/radare-web-gui:latest
+    restart: on-failure
+    networks:
+      - fact-network
+
+  nginx:
+    build: ./nginx
+    networks:
+      - fact-network
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - fact-frontend
+
+
   fact-frontend:
     # local build
     image: fact-core-frontend

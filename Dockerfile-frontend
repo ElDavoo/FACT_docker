@@ -13,7 +13,7 @@ USER fact:fact
 
 COPY entrypoint.sh /usr/local/bin/
 ENV INSIDE_DOCKER=true
-CMD . /opt/FACT_core/venv/bin/activate  && /opt/FACT_core/start_fact_frontend
+CMD . /opt/FACT_core/venv/bin/activate  && /opt/FACT_core/start_fact_frontend --no-radare
 
 # Replace the downloaded code with the local code
 # We do it now to avoid the long building times at every code change
