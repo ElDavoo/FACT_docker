@@ -7,3 +7,6 @@
 	path = FACT_core
 	url = git@github.com:ElDavoo/fact_core.git
         branch = master
+[submodule "docker-radare-web-gui"]
+	path = docker-radare-web-gui
+	url = https://github.com/ElDavoo/docker-radare-web-gui.git

@@ -38,7 +38,8 @@ services:
           memory: 30M
 
   radare:
-    image: fkiecad/radare-web-gui:latest
+    #image: fkiecad/radare-web-gui:latest
+    build: docker-radare-web-gui
     restart: on-failure
     networks:
       - fact-network
