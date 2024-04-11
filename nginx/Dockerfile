@@ -1,4 +1,3 @@
-# necessary to have more_clear_headers
-FROM byjg/nginx-extras
+FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/nginx.conf
