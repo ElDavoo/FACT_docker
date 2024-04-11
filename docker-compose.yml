@@ -57,7 +57,9 @@ services:
 
   fact-frontend:
     # local build
-    image: fact-core-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend
     # official build
     # image: fkiecad/fact-core-frontend
 
@@ -107,7 +109,9 @@ services:
 
   fact-backend:
     # local build
-    image: fact-core-backend
+    build: 
+      context: .
+      dockerfile: Dockerfile-backend
     # official build
     # image: fkiecad/fact-core-backend
 
