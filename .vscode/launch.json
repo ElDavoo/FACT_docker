@@ -24,5 +24,21 @@
             "showReturnValue": true,
             //"preLaunchTask": "Docker Compose Up"
         },
+        {
+            "name": "frontend 5001",
+            "type": "debugpy",
+            "request": "attach",
+            "port": 5001,
+            "host": "localhost",
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}/FACT_core",
+                    "remoteRoot": "/opt/FACT_core/"
+                }
+            ],
+            "justMyCode": false,
+            "showReturnValue": true,
+            //"preLaunchTask": "Docker Compose Up"
+        },
     ]
 }

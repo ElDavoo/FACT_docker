@@ -63,11 +63,11 @@ services:
 
     #entrypoint:
     # - "sh"
-    #  - "-c"
-    #  - |
-    #    . /opt/FACT_core/venv/bin/activate &&
-    #    python3 -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5001 \
-    #    /opt/FACT_core/src/start_fact_frontend.py
+    # - "-c"
+    # - |
+    #   . /opt/FACT_core/venv/bin/activate &&
+    #   python3 -Xfrozen_modules=off -m debugpy --listen 0.0.0.0:5001 --configure-subProcess True --wait-for-client \
+    #   /opt/FACT_core/src/start_fact_frontend.py --no-radare
     #command: start-frontend
     environment:
       - INSIDE_DOCKER=true
