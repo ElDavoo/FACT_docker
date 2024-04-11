@@ -25,6 +25,7 @@ services:
       - fact-network
     depends_on:
       - fact-frontend
+      - nginx
     command: tunnel --no-autoupdate run
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -53,6 +54,7 @@ services:
       - "443:443"
     depends_on:
       - fact-frontend
+      - radare
 
 
   fact-frontend:

@@ -7,36 +7,65 @@ Because FACT uses docker itself, the docker socket from the host will be
 passed to the container. Please make sure that your user is a member of the
 `docker` group.
 
-## Usage
-To initialize the containers the the following lines of shell should get you started.
+# Installation
+## Download this repository and the submodules
+```sh
+git clone --depth=1 https://github.com/ElDavoo/FACT_docker.git
+cd FACT_docker
+git submodule update --init --recursive
+```
+## Take a look
+Take a look at the docker-compose.yml file and the Dockerfiles.  
+
+1) You might want to customize the nginx config.
+2) You might want not to build the images but use the official ones.
+3) You might want to not use some services, like cloudflare tunnel and/or radare2.  
+
+### Install config files
+```sh
+$ cp uwsgi_config.ini.sample uwsgi_config.ini
+$ cp fact-core-config.sample fact-core-config.toml
+```
+Then, edit them as you wish.  
+
+## Composing the environment file
 ```sh
 $ ./start.py compose-env \
     --firmware-file-storage-dir path_to_fw_data_dir > .env
 $ echo FACT_DOCKER_POSTGRES_PASSWORD=mypassword >> .env
+$ echo FACT_DOCKER_AUTH_DATA_FILE=fact_users.db >> .env
 $ docker volume create fact_postgres_data
-$ docker compose up -d database
-$ ./start.py initialize-db \
+```
+If you are using cloudflare tunnel, 
+```sh
+$ echo TUNNEL_TOKEN=your-tunnel-token >> .env
+```
+## Initialize the database (only for the first time)
+Build the base and service container:  
+```sh
+make common scripts
+```
+Initialize the database:  
+```sh
+./start.py initialize-db \
     --network fact_docker_fact-network
-$ docker compose up
+```
+## Pull the plugins' containers
+```sh
+./start.py pull
+```
+## Build and run
+```sh
+$ cd fact_extractor
+$ docker build -t fact_extractor .
+$ cd ..
+$ docker compose up -d --build
 ```
 
 To shut down the containers use `docker compose stop` (Or press Ctrl+C).
 When you want to start them again use `docker compose start`.  
 
-
-We provide a `docker-compose.yml` and a python script to get FACT in docker
-running.
-The `docker-compose.yml` is parameterized with environment variables.
-All variables are prefixed by `FACT_DOCKER_`.
-The variables can be set to sane defaults with `./start.py compose-env`.
-For documentation about their meanings see `docker-compose.yml`.
-
 Use `./start.py --help` to get help about the usage of the script.
-
-## Building the images
-To build the docker images locally run `make`.  
-After that, edit `docker-compose.yml` to enable the usage of the local images.  
-The lowest supported version is `4.0.1`.
 
 ## Development of FACT\_core in FACT\_docker
 Since the FACT\_core is pretty invasive is might be desirable to not install FACT on your system and use this docker image instead.
