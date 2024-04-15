@@ -61,6 +61,10 @@ $ docker build -t fact_extractor .
 $ cd ..
 $ docker compose up -d --build
 ```
+## Manage users
+```sh
+docker exec -it fact_docker-fact-frontend-1 bash -c "cd /opt/FACT_core/ && . venv/bin/activate && src/manage_users.py"
+```
 
 To shut down the containers use `docker compose stop` (Or press Ctrl+C).
 When you want to start them again use `docker compose start`.  
