@@ -50,15 +50,22 @@ Initialize the database:
 ./start.py initialize-db \
     --network fact_docker_fact-network
 ```
-## Pull the plugins' containers
-```sh
-./start.py pull
-```
 ## Build and run
+### Build fact_extractor and docker-radare-web-gui
 ```sh
 $ cd fact_extractor
 $ docker build -t fact_extractor .
 $ cd ..
+$ cd docker-radare-web-gui
+$ docker build -t docker-radare-web-gui .
+$ cd ..
+```
+### Pull the plugins' containers
+```sh
+./start.py pull
+```
+### Build and run the framework
+```sh
 $ docker compose up -d --build
 ```
 ## Manage users
