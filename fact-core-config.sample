@@ -40,6 +40,40 @@ admin-pw = "change_me_admin"
 # Defines analysis presets as shown in the frontend
 # You can add as many as you like
 [[common.analysis_preset]]
+name = "everything"
+plugins = [
+    "cpu_architecture",
+    "binwalk",
+    "exploit_mitigations",
+    "crypto_hints",
+    "crypto_material",
+    "cve_lookup",
+    "cwe_checker",
+    "device_tree",
+    "elf_analysis",
+    "file_system_metadata",
+    "file_type",
+    "hardware_analysis",
+    "hash",
+    "hashlookup",
+    "information_leaks",
+    "init_systems",
+    "input_vectors",
+    "interesting_uris",
+    "ip_and_uri_finder",
+    "ipc_analyzer",
+    "kernel_config",
+    "known_vulnerabilities",
+    "source_code_analysis",
+    "qemu_exec",
+    "software_components",
+    "string_evaluator",
+    "printable_strings",
+    "tlsh",
+    "users_and_passwords",
+]
+
+[[common.analysis_preset]]
 name = "default"
 # choose preselected plugins
 plugins = [

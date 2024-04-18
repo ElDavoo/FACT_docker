@@ -19,9 +19,10 @@ RUN apk add --no-cache \
         file
 
 
-#COPY FACT_core /opt/FACT_core
 
 RUN git clone --depth=1 https://github.com/ElDavoo/FACT_core.git /opt/FACT_core
+
+# COPY FACT_core/src /opt/FACT_core/src
 
 RUN python3 -m venv /opt/FACT_core/venv && \
     /opt/FACT_core/venv/bin/pip install --upgrade \
