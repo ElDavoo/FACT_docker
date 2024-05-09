@@ -71,6 +71,10 @@ $ cd ..
 ```sh
 $ docker compose up -d --build
 ```
+### Create tmp directory if not existing
+```sh
+mkdir /tmp/fact-docker-mount-base-dir && chmod 774 /tmp/fact-docker-mount-base-dir
+```
 ## Manage users
 ```sh
 docker exec -it fact_docker-fact-frontend-1 bash -c "cd /opt/FACT_core/ && . venv/bin/activate && src/manage_users.py"
