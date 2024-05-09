@@ -10,3 +10,6 @@
 [submodule "docker-radare-web-gui"]
 	path = docker-radare-web-gui
 	url = https://github.com/ElDavoo/docker-radare-web-gui.git
+[submodule "docker-ghidra-server"]
+	path = docker-ghidra-server
+	url = https://github.com/ElDavoo/docker-ghidra-server.git

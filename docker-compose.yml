@@ -44,6 +44,40 @@ services:
     restart: on-failure
     networks:
       - fact-network
+  
+  ghidra:
+
+    #docker run --init -it --rm \
+    #         --name ghidra-server \
+    #         --cpus 2 \
+    #         --memory 500m \
+    #         -p 13100:13100 \
+    #         -p 13101:13101 \
+    #         -p 13102:13102 \
+    #         -e MAXMEM=500M \
+    #         -e GHIDRA_USERS="root blacktop" \
+    #         -v /path/to/repos:/repos \
+    #         blacktop/ghidra server
+    build: 
+      context: docker-ghidra-server
+      dockerfile: Dockerfile.beta
+    restart: on-failure
+    networks:
+      - fact-network
+    ports:
+      - "13100:13100"
+      - "13101:13101"
+      - "13102:13102"
+    environment:
+      - MAXMEM=5000M
+      - GHIDRA_USERS=admin dave
+      - GHIDRA_PUBLIC_HOSTNAME=davide.wl.ing.unimo.it
+    volumes:
+      - ./ghidra-data:/ghidra/repositories
+    hostname:
+      ghidra
+
+    
 
   nginx:
     build: ./nginx

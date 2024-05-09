@@ -5,3 +5,4 @@ fact_users.db
 path_to_auth_data_dir
 uwsgi_config.ini
 fact-core-config.toml
+ghidra-data
