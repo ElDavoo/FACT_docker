@@ -43,7 +43,7 @@ $ echo TUNNEL_TOKEN=your-tunnel-token >> .env
 ## Initialize the database (only for the first time)
 Build the base and service container:  
 ```sh
-make common scripts
+make -j common scripts
 ```
 Initialize the database:  
 ```sh
@@ -51,13 +51,16 @@ Initialize the database:
     --network fact_docker_fact-network
 ```
 ## Build and run
-### Build fact_extractor and docker-radare-web-gui
+### Build some plugins
 ```sh
 $ cd fact_extractor
 $ docker build -t fact_extractor .
 $ cd ..
 $ cd docker-radare-web-gui
 $ docker build -t docker-radare-web-gui .
+$ cd ..
+$ cd docker_qemu_user
+$ docker build -t docker_qemu_user .
 $ cd ..
 ```
 ### Pull the plugins' containers
