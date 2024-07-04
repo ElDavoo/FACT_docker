@@ -79,7 +79,14 @@ mkdir /tmp/fact-docker-mount-base-dir && chmod 774 /tmp/fact-docker-mount-base-d
 ```sh
 docker exec -it fact_docker-fact-frontend-1 bash -c "cd /opt/FACT_core/ && . venv/bin/activate && src/manage_users.py"
 ```
-
+## Update the schema
+If you get:
+> The database schema in "storage/schema.py" does not match the schema of the configured database. Please run `alembic upgrade head` from `src` to update the schema.
+After an update,  
+1. Add entrypoint: sleep 10000 in the frontend or backend container, restart it, then
+```sh
+docker exec -it fact_docker-fact-frontend-1 bash -c "cd /opt/FACT_core/ && . venv/bin/activate && cd src && alembic upgrade head"
+```
 To shut down the containers use `docker compose stop` (Or press Ctrl+C).
 When you want to start them again use `docker compose start`.  
 
