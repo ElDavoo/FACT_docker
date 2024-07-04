@@ -2,7 +2,7 @@
 # on FACT_core.
 # Many scripts that one would expect to be able to run independently in fact can't
 # In the future we should maybe extract these in a pip module
-FROM alpine:3.19
+FROM alpine:3.20
 
 RUN apk add --no-cache \
         bash \
