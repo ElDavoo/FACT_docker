@@ -45,6 +45,10 @@ Build the base and service container:
 ```sh
 make -j common scripts
 ```
+Run the database container:
+```sh
+docker compose up -d postgres
+```
 Initialize the database:  
 ```sh
 ./start.py initialize-db \
@@ -67,13 +71,13 @@ $ cd ..
 ```sh
 ./start.py pull
 ```
+### Create tmp directory if not existing
+```sh
+mkdir /tmp/fact-docker-mount-base-dir ; chmod 774 /tmp/fact-docker-mount-base-dir
+```
 ### Build and run the framework
 ```sh
 $ docker compose up -d --build
-```
-### Create tmp directory if not existing
-```sh
-mkdir /tmp/fact-docker-mount-base-dir && chmod 774 /tmp/fact-docker-mount-base-dir
 ```
 ## Manage users
 ```sh

@@ -12,4 +12,7 @@
 	url = https://github.com/ElDavoo/docker-radare-web-gui.git
 [submodule "docker-ghidra-server"]
 	path = docker-ghidra-server
-	url = https://github.com/ElDavoo/docker-ghidra-server.git
+	url = git@github.com:ElDavoo/docker-ghidra-server.git
+[submodule "docker_qemu_user"]
+	path = docker_qemu_user
+	url = https://github.com/ElDavoo/docker_qemu_user.git
